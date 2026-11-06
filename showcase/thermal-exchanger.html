@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aionik Labs - Interactive Showcases</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        gray: {
+                            850: '#1f2937', // Custom middle-dark gray
+                            900: '#111827',
+                            950: '#030712',
+                        }
+                    },
+                    animation: {
+                        'fade-in': 'fadeIn 0.4s ease-out forwards',
+                        'slide-up': 'slideUp 0.5s ease-out forwards',
+                    },
+                    keyframes: {
+                        fadeIn: {
+                            '0%': { opacity: '0' },
+                            '100%': { opacity: '1' },
+                        },
+                        slideUp: {
+                            '0%': { opacity: '0', transform: 'translateY(10px)' },
+                            '100%': { opacity: '1', transform: 'translateY(0)' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* Custom scrollbar for timeline on small screens */
+        .hide-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .hide-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+</head>
+<body class="bg-gray-950 text-gray-200 font-sans antialiased min-h-screen py-16">
+
+    <div class="max-w-6xl mx-auto px-6">
+        
+        <!-- Header -->
+        <div class="text-center mb-16 animate-slide-up">
+            <h2 class="text-4xl md:text-5xl font-bold text-white mb-4 tracking-tight">
+                Engineered by <span class="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-cyan-500">Nature & AI</span>
+            </h2>
+            <p class="text-gray-400 max-w-2xl mx-auto text-lg">
+                Explore our interactive case studies to see how we transform biological insights into market-ready industrial hardware.
+            </p>
+        </div>
+
+        <!-- Master Tabs -->
+        <div class="flex flex-col sm:flex-row justify-center items-center gap-3 mb-12 animate-fade-in" style="animation-delay: 0.2s;">
+            <button onclick="switchTab(1)" id="tab-btn-1" class="tab-btn w-full sm:w-auto px-6 py-3 rounded-xl font-medium transition-all duration-300 bg-gray-800 text-gray-400 hover:bg-gray-750 hover:text-gray-200 border border-transparent">
+                Overview Showcase
+            </button>
+            <button onclick="switchTab(2)" id="tab-btn-2" class="tab-btn w-full sm:w-auto px-6 py-3 rounded-xl font-medium transition-all duration-300 bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 shadow-[0_0_15px_rgba(16,185,129,0.15)]">
+                Thermal Exchanger
+            </button>
+            <button onclick="switchTab(3)" id="tab-btn-3" class="tab-btn w-full sm:w-auto px-6 py-3 rounded-xl font-medium transition-all duration-300 bg-gray-800 text-gray-400 hover:bg-gray-750 hover:text-gray-200 border border-transparent">
+                Structural Nodes
+            </button>
+        </div>
+
+        <!-- Showcase Containers -->
+        <div class="relative min-h-[500px]">
+            
+            <!-- Showcase 1: Placeholder -->
+            <div id="showcase-1" class="showcase-panel hidden animate-fade-in">
+                <div class="bg-gray-900 border border-gray-800 rounded-3xl p-10 md:p-16 flex flex-col items-center justify-center text-center h-full min-h-[400px]">
+                    <div class="w-20 h-20 bg-gray-800 rounded-full flex items-center justify-center mb-6 shadow-inner">
+                        <svg class="w-10 h-10 text-emerald-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+                    </div>
+                    <h3 class="text-3xl font-bold text-white mb-4">Your First Showcase</h3>
+                    <p class="text-gray-400 max-w-lg">This is a clean placeholder for your introductory project. You can replace this section with your existing showcase content to seamlessly integrate it into the new tab system.</p>
+                </div>
+            </div>
+
+            <!-- Showcase 2: Thermal Exchanger (Interactive Timeline) -->
+            <!-- Set as default active -->
+            <div id="showcase-2" class="showcase-panel block animate-fade-in">
+                <div class="bg-gray-900 border border-gray-800 rounded-3xl overflow-hidden shadow-2xl">
+                    
+                    <!-- Timeline Header -->
+                    <div class="p-8 border-b border-gray-800 bg-gray-900/50">
+                        <h3 class="text-2xl font-bold text-white mb-6">Thermal Exchanger Development Cycle</h3>
+                        
+                        <!-- Timeline Tracker -->
+                        <div class="relative flex items-center justify-between overflow-x-auto hide-scrollbar pb-2">
+                            <!-- Connecting Line -->
+                            <div class="absolute left-0 top-1/2 -translate-y-1/2 w-full h-1 bg-gray-800 rounded-full z-0"></div>
+                            <!-- Active Line Fill -->
+                            <div id="timeline-progress" class="absolute left-0 top-1/2 -translate-y-1/2 h-1 bg-gradient-to-r from-emerald-500 to-cyan-500 rounded-full z-0 transition-all duration-500" style="width: 0%;"></div>
+
+                            <!-- Steps -->
+                            <button onclick="setThermalStep(0)" class="timeline-step relative z-10 flex flex-col items-center group min-w-[80px]">
+                                <div id="step-dot-0" class="w-10 h-10 rounded-full bg-gray-900 border-2 border-emerald-500 text-emerald-400 flex items-center justify-center font-bold mb-2 transition-all duration-300 shadow-[0_0_10px_rgba(16,185,129,0.3)]">1</div>
+                                <span class="text-xs font-semibold text-gray-300 transition-colors">Problem</span>
+                            </button>
+                            <button onclick="setThermalStep(1)" class="timeline-step relative z-10 flex flex-col items-center group min-w-[80px]">
+                                <div id="step-dot-1" class="w-10 h-10 rounded-full bg-gray-900 border-2 border-gray-700 text-gray-500 flex items-center justify-center font-bold mb-2 transition-all duration-300 group-hover:border-gray-500">2</div>
+                                <span class="text-xs font-semibold text-gray-600 group-hover:text-gray-400 transition-colors">Blueprint</span>
+                            </button>
+                            <button onclick="setThermalStep(2)" class="timeline-step relative z-10 flex flex-col items-center group min-w-[80px]">
+                                <div id="step-dot-2" class="w-10 h-10 rounded-full bg-gray-900 border-2 border-gray-700 text-gray-500 flex items-center justify-center font-bold mb-2 transition-all duration-300 group-hover:border-gray-500">3</div>
+                                <span class="text-xs font-semibold text-gray-600 group-hover:text-gray-400 transition-colors">AI Gen</span>
+                            </button>
+                            <button onclick="setThermalStep(3)" class="timeline-step relative z-10 flex flex-col items-center group min-w-[80px]">
+                                <div id="step-dot-3" class="w-10 h-10 rounded-full bg-gray-900 border-2 border-gray-700 text-gray-500 flex items-center justify-center font-bold mb-2 transition-all duration-300 group-hover:border-gray-500">4</div>
+                                <span class="text-xs font-semibold text-gray-600 group-hover:text-gray-400 transition-colors">Result</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Timeline Content Area -->
+                    <div class="p-8 md:p-12 grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+                        <!-- Text Content -->
+                        <div class="relative h-48 md:h-full flex flex-col justify-center">
+                            <!-- Dynamic Content Inserted Here via JS -->
+                            <div id="thermal-text-container" class="animate-fade-in">
+                                <span class="text-emerald-500 font-bold text-sm uppercase tracking-wider mb-2 block">Step 1: The Engineering Challenge</span>
+                                <h4 class="text-2xl font-bold text-white mb-4">Thermal Inefficiency</h4>
+                                <p class="text-gray-400 leading-relaxed">Traditional planar cold plates create uneven temperature gradients across high-density battery modules. This causes premature cell degradation and requires excessive pumping power to overcome internal friction.</p>
+                            </div>
+                        </div>
+
+                        <!-- Visual Placeholder -->
+                        <div class="relative w-full aspect-video md:aspect-square max-h-[300px] rounded-2xl overflow-hidden border border-gray-800 bg-gray-950 flex items-center justify-center group perspective-1000">
+                            <!-- Background glow -->
+                            <div id="thermal-glow" class="absolute inset-0 bg-red-500/5 opacity-50 transition-colors duration-700"></div>
+                            
+                            <!-- Dynamic Icon/Shape -->
+                            <div id="thermal-visual" class="relative z-10 transform transition-all duration-700 hover:scale-110">
+                                <!-- Problem Icon (Heat/Uneven) -->
+                                <svg class="w-24 h-24 text-red-400/80" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M17.657 18.657A8 8 0 016.343 7.343S7 9 9 10c0-2 .5-5 2.986-7C14 5 16.09 5.777 17.656 7.343A7.975 7.975 0 0120 13a7.975 7.975 0 01-2.343 5.657z"></path>
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M9.879 16.121A3 3 0 1012.015 11L11 14H9c0 .768.293 1.536.879 2.121z"></path>
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Showcase 3: Structural Nodes (Before/After Toggle) -->
+            <div id="showcase-3" class="showcase-panel hidden animate-fade-in">
+                <div class="bg-gray-900 border border-gray-800 rounded-3xl p-8 md:p-12 shadow-2xl">
+                    
+                    <div class="text-center mb-10">
+                        <h3 class="text-2xl font-bold text-white mb-4">Ultralight Structural Nodes</h3>
+                        <p class="text-gray-400 max-w-2xl mx-auto">See the massive efficiency gains when switching from traditional machining to AI-driven biological blueprints.</p>
+                    </div>
+
+                    <!-- Interactive Toggle Switch -->
+                    <div class="flex justify-center mb-12">
+                        <div class="relative bg-gray-950 border border-gray-800 rounded-full p-1 flex w-full max-w-md items-center cursor-pointer shadow-inner">
+                            <!-- Animated Background Pill -->
+                            <div id="toggle-pill" class="absolute left-1 top-1 bottom-1 w-[calc(50%-4px)] bg-gray-800 rounded-full transition-transform duration-500 ease-out shadow-md"></div>
+                            
+                            <!-- Options -->
+                            <button onclick="setNodeState(false)" id="toggle-opt-1" class="relative z-10 w-1/2 py-3 text-center text-sm font-semibold text-white transition-colors duration-300">
+                                Traditional CNC Part
+                            </button>
+                            <button onclick="setNodeState(true)" id="toggle-opt-2" class="relative z-10 w-1/2 py-3 text-center text-sm font-semibold text-gray-500 transition-colors duration-300">
+                                Aionik AI-Bionic
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Interactive Stat Cards -->
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                        
+                        <!-- Weight Card -->
+                        <div class="bg-gray-950 border border-gray-800 rounded-2xl p-6 relative overflow-hidden group">
+                            <div id="stat-glow-1" class="absolute -inset-10 bg-gradient-to-r from-red-500/10 to-transparent opacity-0 transition-opacity duration-500 rounded-full blur-2xl"></div>
+                            <div class="relative z-10">
+                                <div class="flex items-center justify-between mb-4">
+                                    <span class="text-gray-400 font-medium">Part Weight</span>
+                                    <svg class="w-5 h-5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 6l3 1m0 0l-3 9a5.002 5.002 0 006.001 0M6 7l3 9M6 7l6-2m6 2l3-1m-3 1l-3 9a5.002 5.002 0 006.001 0M18 7l3 9m-3-9l-6-2m0-2v2m0 16V5m0 16H9m3 0h3"></path></svg>
+                                </div>
+                                <div class="flex items-baseline gap-2">
+                                    <span id="val-weight" class="text-4xl font-bold text-white transition-all duration-500">850</span>
+                                    <span class="text-gray-500 font-medium">grams</span>
+                                </div>
+                                <div id="desc-weight" class="text-sm text-red-400 mt-2 h-5 transition-opacity duration-300">Heavy payload mass</div>
+                            </div>
+                        </div>
+
+                        <!-- Waste Card -->
+                        <div class="bg-gray-950 border border-gray-800 rounded-2xl p-6 relative overflow-hidden">
+                            <div id="stat-glow-2" class="absolute -inset-10 bg-gradient-to-r from-red-500/10 to-transparent opacity-0 transition-opacity duration-500 rounded-full blur-2xl"></div>
+                            <div class="relative z-10">
+                                <div class="flex items-center justify-between mb-4">
+                                    <span class="text-gray-400 font-medium">Material Waste</span>
+                                    <svg class="w-5 h-5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
+                                </div>
+                                <div class="flex items-baseline gap-2">
+                                    <span id="val-waste" class="text-3xl font-bold text-white transition-all duration-500">High</span>
+                                </div>
+                                <div id="desc-waste" class="text-sm text-gray-500 mt-2 h-5 transition-all duration-300">Subtractive milling</div>
+                            </div>
+                        </div>
+
+                        <!-- Stiffness Card -->
+                        <div class="bg-gray-950 border border-gray-800 rounded-2xl p-6 relative overflow-hidden">
+                            <div id="stat-glow-3" class="absolute -inset-10 bg-gradient-to-r from-cyan-500/10 to-transparent opacity-0 transition-opacity duration-500 rounded-full blur-2xl"></div>
+                            <div class="relative z-10">
+                                <div class="flex items-center justify-between mb-4">
+                                    <span class="text-gray-400 font-medium">Torsional Stiffness</span>
+                                    <svg class="w-5 h-5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+                                </div>
+                                <div class="flex items-baseline gap-2">
+                                    <span id="val-stiffness" class="text-3xl font-bold text-white transition-all duration-500">Standard</span>
+                                </div>
+                                <div id="desc-stiffness" class="text-sm text-gray-500 mt-2 h-5 transition-all duration-300">Baseline performance</div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Interactive Scripts -->
+    <script>
+        // --- Master Tab Switching ---
+        function switchTab(tabIndex) {
+            // Hide all panels
+            document.querySelectorAll('.showcase-panel').forEach(panel => {
+                panel.classList.remove('block');
+                panel.classList.add('hidden');
+            });
+            
+            // Reset all buttons styling
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.className = "tab-btn w-full sm:w-auto px-6 py-3 rounded-xl font-medium transition-all duration-300 bg-gray-800 text-gray-400 hover:bg-gray-750 hover:text-gray-200 border border-transparent";
+            });
+
+            // Show selected panel
+            document.getElementById(`showcase-${tabIndex}`).classList.remove('hidden');
+            document.getElementById(`showcase-${tabIndex}`).classList.add('block');
+
+            // Highlight active button
+            const activeBtn = document.getElementById(`tab-btn-${tabIndex}`);
+            activeBtn.className = "tab-btn w-full sm:w-auto px-6 py-3 rounded-xl font-medium transition-all duration-300 bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 shadow-[0_0_15px_rgba(16,185,129,0.15)]";
+        }
+
+
+        // --- Thermal Exchanger Timeline Logic ---
+        const thermalData = [
+            {
+                stepTitle: "Step 1: The Engineering Challenge",
+                title: "Thermal Inefficiency",
+                desc: "Traditional planar cold plates create uneven temperature gradients across high-density battery modules. This causes premature cell degradation and requires excessive pumping power to overcome internal friction.",
+                glowClass: "bg-red-500/5",
+                svg: `<svg class="w-24 h-24 text-red-400/80" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M17.657 18.657A8 8 0 016.343 7.343S7 9 9 10c0-2 .5-5 2.986-7C14 5 16.09 5.777 17.656 7.343A7.975 7.975 0 0120 13a7.975 7.975 0 01-2.343 5.657z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M9.879 16.121A3 3 0 1012.015 11L11 14H9c0 .768.293 1.536.879 2.121z"></path></svg>`
+            },
+            {
+                stepTitle: "Step 2: Biological Blueprint",
+                title: "Murray's Law",
+                desc: "Hierarchical leaf venation networks and vascular circulatory systems govern optimal fluid distribution, balancing flow volume and minimizing pressure resistance across large surface areas.",
+                glowClass: "bg-emerald-500/5",
+                svg: `<svg class="w-24 h-24 text-emerald-400/80" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M3 21v-4m0 0V5a2 2 0 012-2h6.5l1 1H21l-3 6 3 6h-8.5l-1-1H5a2 2 0 00-2 2zm9-13.5V9"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M12 9s3-3 6-3"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M12 9s3 3 6 3"></path></svg>`
+            },
+            {
+                stepTitle: "Step 3: AI Generation",
+                title: "Algorithmic Simulation",
+                desc: "Algorithmic AI models simulate non-linear fluid distribution, generating fractal branch conduits tailored precisely to exact thermal hot spots in real-time.",
+                glowClass: "bg-cyan-500/5",
+                svg: `<svg class="w-24 h-24 text-cyan-400/80" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>`
+            },
+            {
+                stepTitle: "Step 4: Final Result",
+                title: "Optimized Exchanger",
+                desc: "Achieved a 34% decrease in hydraulic pressure drop, 28% increase in heat dissipation uniformity, and a 19% reduction in overall cooler weight, optimized for 3D printing.",
+                glowClass: "bg-gradient-to-br from-emerald-500/10 to-cyan-500/10",
+                svg: `<svg class="w-24 h-24 text-white drop-shadow-[0_0_15px_rgba(16,185,129,0.5)]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M5 13l4 4L19 7"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M12 22C6.477 22 2 17.523 2 12S6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z" opacity="0.3"></path></svg>`
+            }
+        ];
+
+        function setThermalStep(index) {
+            // Update Progress Bar
+            const progress = document.getElementById('timeline-progress');
+            progress.style.width = `${(index / 3) * 100}%`;
+
+            // Update Step Dots
+            for (let i = 0; i <= 3; i++) {
+                const dot = document.getElementById(`step-dot-${i}`);
+                const textSpan = dot.nextElementSibling;
+                
+                if (i === index) {
+                    dot.className = "w-10 h-10 rounded-full bg-gray-900 border-2 border-emerald-500 text-emerald-400 flex items-center justify-center font-bold mb-2 transition-all duration-300 shadow-[0_0_10px_rgba(16,185,129,0.3)]";
+                    textSpan.className = "text-xs font-semibold text-emerald-400 transition-colors";
+                } else if (i < index) {
+                    dot.className = "w-10 h-10 rounded-full bg-emerald-500/20 border-2 border-emerald-500/50 text-emerald-500 flex items-center justify-center font-bold mb-2 transition-all duration-300";
+                    textSpan.className = "text-xs font-semibold text-emerald-500/50 transition-colors";
+                } else {
+                    dot.className = "w-10 h-10 rounded-full bg-gray-900 border-2 border-gray-700 text-gray-500 flex items-center justify-center font-bold mb-2 transition-all duration-300 group-hover:border-gray-500";
+                    textSpan.className = "text-xs font-semibold text-gray-600 transition-colors";
+                }
+            }
+
+            // Update Content with Fade Effect
+            const container = document.getElementById('thermal-text-container');
+            container.classList.remove('animate-fade-in');
+            
+            // Trigger reflow for animation restart
+            void container.offsetWidth; 
+
+            container.innerHTML = `
+                <span class="text-emerald-500 font-bold text-sm uppercase tracking-wider mb-2 block">${thermalData[index].stepTitle}</span>
+                <h4 class="text-2xl font-bold text-white mb-4">${thermalData[index].title}</h4>
+                <p class="text-gray-400 leading-relaxed">${thermalData[index].desc}</p>
+            `;
+            container.classList.add('animate-fade-in');
+
+            // Update Visuals
+            const visual = document.getElementById('thermal-visual');
+            const glow = document.getElementById('thermal-glow');
+            
+            visual.style.opacity = 0;
+            visual.style.transform = 'scale(0.9)';
+            
+            setTimeout(() => {
+                visual.innerHTML = thermalData[index].svg;
+                glow.className = `absolute inset-0 opacity-50 transition-colors duration-700 ${thermalData[index].glowClass}`;
+                visual.style.opacity = 1;
+                visual.style.transform = 'scale(1)';
+            }, 300);
+        }
+
+
+        // --- Structural Nodes Toggle Logic ---
+        let isAionik = false;
+
+        function setNodeState(state) {
+            if (isAionik === state) return;
+            isAionik = state;
+
+            const pill = document.getElementById('toggle-pill');
+            const opt1 = document.getElementById('toggle-opt-1');
+            const opt2 = document.getElementById('toggle-opt-2');
+
+            // Update DOM Elements for Stats
+            const vWeight = document.getElementById('val-weight');
+            const dWeight = document.getElementById('desc-weight');
+            const glow1 = document.getElementById('stat-glow-1');
+
+            const vWaste = document.getElementById('val-waste');
+            const dWaste = document.getElementById('desc-waste');
+            const glow2 = document.getElementById('stat-glow-2');
+
+            const vStiffness = document.getElementById('val-stiffness');
+            const dStiffness = document.getElementById('desc-stiffness');
+            const glow3 = document.getElementById('stat-glow-3');
+
+            if (isAionik) {
+                // Switch to Aionik State
+                pill.style.transform = 'translateX(100%)';
+                pill.className = "absolute left-1 top-1 bottom-1 w-[calc(50%-4px)] bg-gradient-to-r from-emerald-600 to-emerald-500 rounded-full transition-transform duration-500 ease-out shadow-[0_0_10px_rgba(16,185,129,0.4)]";
+                
+                opt1.className = "relative z-10 w-1/2 py-3 text-center text-sm font-semibold text-gray-400 transition-colors duration-300";
+                opt2.className = "relative z-10 w-1/2 py-3 text-center text-sm font-bold text-white transition-colors duration-300";
+
+                // Values Update
+                vWeight.innerText = "475";
+                vWeight.classList.add("text-emerald-400");
+                dWeight.innerText = "44% Mass Reduction";
+                dWeight.className = "text-sm text-emerald-500 mt-2 h-5 transition-opacity duration-300";
+                glow1.classList.remove('opacity-0');
+                glow1.classList.add('opacity-100', 'from-emerald-500/20');
+
+                vWaste.innerText = "Zero";
+                vWaste.classList.add("text-emerald-400");
+                dWaste.innerText = "Additive Manufacturing";
+                glow2.classList.remove('opacity-0');
+                glow2.classList.add('opacity-100', 'from-emerald-500/10');
+
+                vStiffness.innerText = "+21%";
+                vStiffness.classList.add("text-cyan-400");
+                dStiffness.innerText = "Optimized load paths";
+                glow3.classList.remove('opacity-0');
+                glow3.classList.add('opacity-100', 'from-cyan-500/20');
+
+            } else {
+                // Switch to Traditional State
+                pill.style.transform = 'translateX(0)';
+                pill.className = "absolute left-1 top-1 bottom-1 w-[calc(50%-4px)] bg-gray-800 rounded-full transition-transform duration-500 ease-out shadow-md";
+                
+                opt1.className = "relative z-10 w-1/2 py-3 text-center text-sm font-semibold text-white transition-colors duration-300";
+                opt2.className = "relative z-10 w-1/2 py-3 text-center text-sm font-semibold text-gray-500 transition-colors duration-300";
+
+                // Values Update
+                vWeight.innerText = "850";
+                vWeight.classList.remove("text-emerald-400");
+                dWeight.innerText = "Heavy payload mass";
+                dWeight.className = "text-sm text-red-400 mt-2 h-5 transition-opacity duration-300";
+                glow1.classList.remove('opacity-100', 'from-emerald-500/20');
+                glow1.classList.add('opacity-0');
+
+                vWaste.innerText = "High";
+                vWaste.classList.remove("text-emerald-400");
+                dWaste.innerText = "Subtractive milling";
+                glow2.classList.remove('opacity-100', 'from-emerald-500/10');
+                glow2.classList.add('opacity-0');
+
+                vStiffness.innerText = "Standard";
+                vStiffness.classList.remove("text-cyan-400");
+                dStiffness.innerText = "Baseline performance";
+                glow3.classList.remove('opacity-100', 'from-cyan-500/20');
+                glow3.classList.add('opacity-0');
+            }
+        }
+
+        // Optional URL control: aionik_labs_showcases.html?tab=2 or ?tab=3
+        const requestedTab = Number(new URLSearchParams(window.location.search).get('tab') || '2');
+        if ([1, 2, 3].includes(requestedTab)) {
+            switchTab(requestedTab);
+        } else {
+            switchTab(2);
+        }
+    </script>
+</body>
+</html>
