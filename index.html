@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aionik Labs | Evolution Meets Intelligence</title>
+    <meta name="description" content="Aionik Labs - Shaping Tomorrow's Products through Bionics, Design Thinking, and AI.">
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        brand: {
+                            dark: '#12151c',
+                            card: '#1a1e28',
+                            green: '#34d399', /* Emerald 400 */
+                            blue: '#22d3ee',  /* Cyan 400 */
+                        }
+                    },
+                    backgroundImage: {
+                        'gradient-brand': 'linear-gradient(to right, #34d399, #22d3ee)',
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            background-color: #12151c;
+            color: #f8fafc;
+            overflow-x: hidden;
+        }
+
+        /* Custom Text Gradient */
+        .text-gradient {
+            background: linear-gradient(to right, #34d399, #22d3ee);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        /* Glowing Effects */
+        .glow-blob {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(100px);
+            z-index: 0;
+            opacity: 0.15;
+            pointer-events: none;
+        }
+
+        /* Card Hover Effects */
+        .pillar-card {
+            transition: all 0.4s ease;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            background: rgba(26, 30, 40, 0.6);
+            backdrop-filter: blur(10px);
+        }
+        
+        .pillar-card:hover {
+            transform: translateY(-8px);
+            border-color: rgba(34, 211, 238, 0.4);
+            box-shadow: 0 20px 40px -10px rgba(34, 211, 238, 0.15);
+        }
+
+        .pillar-icon {
+            transition: all 0.4s ease;
+        }
+        .pillar-card:hover .pillar-icon {
+            transform: scale(1.1);
+        }
+
+        /* Scroll Reveal Animations */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s cubic-bezier(0.5, 0, 0, 1);
+        }
+        
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Navigation glass effect */
+        .nav-glass {
+            background: rgba(18, 21, 28, 0.8);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+    </style>
+</head>
+<body class="antialiased selection:bg-brand-blue selection:text-brand-dark">
+
+    <!-- Background Ambient Glows -->
+    <div class="glow-blob bg-brand-green w-96 h-96 top-[-10%] left-[-10%]"></div>
+    <div class="glow-blob bg-brand-blue w-96 h-96 top-[20%] right-[-10%]"></div>
+    <div class="glow-blob bg-brand-green w-[500px] h-[500px] bottom-[-10%] left-[20%]"></div>
+
+    <!-- Navigation -->
+    <nav class="fixed w-full z-50 transition-all duration-300 nav-glass" id="navbar">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-20">
+                <div class="flex-shrink-0 flex items-center gap-3">
+                    <!-- Stylized Text Logo mimicking the brand feel -->
+                    <div class="relative w-8 h-8 rounded-full bg-gradient-brand flex items-center justify-center">
+                        <div class="w-7 h-7 rounded-full bg-brand-dark flex items-center justify-center">
+                            <span class="text-brand-green font-bold text-sm">AL</span>
+                        </div>
+                    </div>
+                    <span class="font-bold text-2xl tracking-wide text-white">Aionik <span class="font-light">LABS</span></span>
+                </div>
+                <div class="hidden md:block">
+                    <div class="ml-10 flex items-baseline space-x-8">
+                        <a href="#home" class="text-gray-300 hover:text-white transition-colors px-3 py-2 text-sm font-medium">Home</a>
+                        <a href="#approach" class="text-gray-300 hover:text-white transition-colors px-3 py-2 text-sm font-medium">Our Approach</a>
+                        <a href="#contact" class="bg-transparent border border-brand-green text-brand-green hover:bg-brand-green hover:text-brand-dark transition-all px-5 py-2 rounded-full text-sm font-medium">Contact Us</a>
+                    </div>
+                </div>
+                <!-- Mobile menu button -->
+                <div class="md:hidden flex items-center">
+                    <button id="mobile-menu-btn" class="text-gray-300 hover:text-white focus:outline-none">
+                        <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <!-- Mobile Menu (Hidden by default) -->
+        <div id="mobile-menu" class="hidden md:hidden bg-brand-dark/95 backdrop-blur-md border-b border-gray-800">
+            <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+                <a href="#home" class="text-gray-300 hover:text-white block px-3 py-2 text-base font-medium">Home</a>
+                <a href="#approach" class="text-gray-300 hover:text-white block px-3 py-2 text-base font-medium">Our Approach</a>
+                <a href="#contact" class="text-brand-green block px-3 py-2 text-base font-medium">Contact Us</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="relative min-h-screen flex items-center justify-center pt-20 overflow-hidden z-10">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
+            
+            <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-gray-700 bg-gray-800/50 backdrop-blur-sm mb-8 reveal">
+                <span class="w-2 h-2 rounded-full bg-brand-green animate-pulse"></span>
+                <span class="text-xs sm:text-sm font-medium text-gray-300 uppercase tracking-wider">Next-Gen Product Development</span>
+            </div>
+
+            <h1 class="text-5xl sm:text-7xl md:text-8xl font-bold tracking-tight mb-6 reveal" style="transition-delay: 100ms;">
+                Aionik <span class="text-gradient">Labs</span>
+            </h1>
+            
+            <div class="mt-8 mb-12 reveal" style="transition-delay: 200ms;">
+                <h2 class="text-2xl sm:text-3xl md:text-4xl font-light text-gray-200 leading-tight">
+                    Evolution Meets Intelligence:
+                    <br class="hidden sm:block" />
+                    <span class="font-medium text-white">Shaping Tomorrow's Products</span>
+                </h2>
+            </div>
+            
+            <div class="flex flex-col sm:flex-row gap-4 justify-center items-center reveal" style="transition-delay: 300ms;">
+                <a href="#approach" class="w-full sm:w-auto px-8 py-4 rounded-full bg-gradient-brand text-brand-dark font-semibold text-lg hover:shadow-[0_0_20px_rgba(52,211,153,0.4)] transition-all hover:scale-105">
+                    Discover Our DNA
+                </a>
+                <a href="#contact" class="w-full sm:w-auto px-8 py-4 rounded-full bg-transparent border border-gray-600 text-white font-medium text-lg hover:border-brand-blue hover:text-brand-blue transition-all">
+                    Let's Talk
+                </a>
+            </div>
+        </div>
+        
+        <!-- Scroll Down Indicator -->
+        <div class="absolute bottom-10 left-1/2 transform -translate-x-1/2 animate-bounce flex flex-col items-center">
+            <span class="text-xs text-gray-500 mb-2 uppercase tracking-widest">Scroll</span>
+            <svg class="w-5 h-5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path>
+            </svg>
+        </div>
+    </section>
+
+    <!-- Our Approach Section -->
+    <section id="approach" class="py-24 relative z-10 bg-brand-dark/50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-20 reveal">
+                <h2 class="text-brand-green font-semibold tracking-wide uppercase text-sm mb-3">The Synergy</h2>
+                <h3 class="text-3xl md:text-5xl font-bold text-white mb-6">Our Core Pillars</h3>
+                <p class="text-gray-400 text-lg">We merge the brilliance of nature, human-centric design, and artificial intelligence to engineer products that redefine industries.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                
+                <!-- Pillar 1: Bionics -->
+                <div class="pillar-card rounded-2xl p-8 reveal" style="transition-delay: 100ms;">
+                    <div class="w-14 h-14 rounded-xl bg-brand-green/10 flex items-center justify-center mb-6 pillar-icon border border-brand-green/20">
+                        <svg class="w-7 h-7 text-brand-green" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+                            <!-- Custom Leaf-like inner lines -->
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 7.636v12.728M12 14c-2.5-2-4.5-4-4.5-6M12 17c2.5-2 4.5-4 4.5-6" />
+                        </svg>
+                    </div>
+                    <h4 class="text-xl font-bold text-white mb-3">Biomimetics</h4>
+                    <p class="text-gray-400 text-sm leading-relaxed">
+                        Learning from billions of years of evolution. We extract nature's most efficient, sustainable, and resilient concepts to solve complex engineering challenges.
+                    </p>
+                </div>
+
+                <!-- Pillar 2: Design Thinking -->
+                <div class="pillar-card rounded-2xl p-8 reveal" style="transition-delay: 200ms;">
+                    <div class="w-14 h-14 rounded-xl bg-brand-blue/10 flex items-center justify-center mb-6 pillar-icon border border-brand-blue/20">
+                        <svg class="w-7 h-7 text-brand-blue" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
+                        </svg>
+                    </div>
+                    <h4 class="text-xl font-bold text-white mb-3">Design Thinking</h4>
+                    <p class="text-gray-400 text-sm leading-relaxed">
+                        Radical user-centricity. Through empathetic research, rapid prototyping, and iterative loops, we ensure the solutions we build are truly needed and loved by users.
+                    </p>
+                </div>
+
+                <!-- Pillar 3: Artificial Intelligence -->
+                <div class="pillar-card rounded-2xl p-8 reveal" style="transition-delay: 300ms;">
+                    <div class="w-14 h-14 rounded-xl bg-indigo-500/10 flex items-center justify-center mb-6 pillar-icon border border-indigo-500/20">
+                        <svg class="w-7 h-7 text-indigo-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z" />
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 8v4l3 3" />
+                        </svg>
+                    </div>
+                    <h4 class="text-xl font-bold text-white mb-3">Artificial Intelligence</h4>
+                    <p class="text-gray-400 text-sm leading-relaxed">
+                        Data-driven evolution. We leverage generative algorithms, machine learning, and predictive models to optimize designs faster than ever previously possible.
+                    </p>
+                </div>
+
+                <!-- Pillar 4: Product Development -->
+                <div class="pillar-card rounded-2xl p-8 reveal" style="transition-delay: 400ms;">
+                    <div class="w-14 h-14 rounded-xl bg-purple-500/10 flex items-center justify-center mb-6 pillar-icon border border-purple-500/20">
+                        <svg class="w-7 h-7 text-purple-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
+                        </svg>
+                    </div>
+                    <h4 class="text-xl font-bold text-white mb-3">Product Engineering</h4>
+                    <p class="text-gray-400 text-sm leading-relaxed">
+                        From abstract concept to physical reality. We bring robust mechanical and software engineering expertise to manufacture market-ready, superior products.
+                    </p>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Middle Banner / Slogan Emphasis -->
+    <section class="py-24 border-y border-gray-800 bg-brand-dark relative z-10 overflow-hidden">
+        <div class="absolute inset-0 opacity-20" style="background-image: radial-gradient(#34d399 1px, transparent 1px); background-size: 40px 40px;"></div>
+        <div class="max-w-4xl mx-auto px-4 text-center relative z-10 reveal">
+            <svg class="w-12 h-12 mx-auto text-gray-700 mb-6" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h3.983v10h-9.983z" />
+            </svg>
+            <h3 class="text-3xl md:text-5xl font-light text-white leading-tight">
+                Nature spent millions of years <span class="font-semibold text-gradient">prototyping</span>. <br class="hidden md:block">We use AI to bring those insights to you <span class="font-semibold text-white">today</span>.
+            </h3>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="py-24 relative z-10">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="bg-brand-card border border-gray-800 rounded-3xl p-8 md:p-16 reveal relative overflow-hidden">
+                <!-- Decorative background elements inside card -->
+                <div class="absolute top-0 right-0 w-64 h-64 bg-brand-blue/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2"></div>
+                
+                <div class="relative z-10 flex flex-col items-center text-center max-w-3xl mx-auto">
+                    <h2 class="text-3xl md:text-4xl font-bold text-white mb-6">Ready to shape tomorrow?</h2>
+                    <p class="text-gray-400 mb-10 text-lg">
+                        Whether you are looking to revolutionize an existing product or build something entirely new, let's combine forces. Drop us a line.
+                    </p>
+                    
+                    <a href="mailto:aionik.labs@gmail.com" class="inline-flex items-center gap-4 px-8 py-5 rounded-full bg-gradient-brand text-brand-dark font-bold text-lg hover:shadow-[0_0_20px_rgba(52,211,153,0.4)] transition-all hover:scale-105">
+                        <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg>
+                        aionik.labs@gmail.com
+                    </a>
+                    
+                    <div class="mt-8 flex items-center gap-2 text-gray-400">
+                        <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1" /></svg>
+                        <a href="https://aioniklabs.github.io" class="hover:text-brand-green transition-colors">https://aioniklabs.github.io</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="border-t border-gray-800 bg-brand-dark pt-12 pb-8 relative z-10 text-center md:text-left">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col md:flex-row justify-between items-center mb-8 gap-6">
+                <div class="flex items-center gap-2">
+                    <div class="w-6 h-6 rounded-full bg-gradient-brand flex items-center justify-center">
+                        <div class="w-5 h-5 rounded-full bg-brand-dark"></div>
+                    </div>
+                    <span class="font-bold text-xl text-white">Aionik <span class="font-light">LABS</span></span>
+                </div>
+                
+                <div class="flex gap-6 items-center">
+                    <a href="mailto:aionik.labs@gmail.com" class="text-gray-400 hover:text-brand-green transition-colors text-sm font-medium">
+                        aionik.labs@gmail.com
+                    </a>
+                    <span class="text-gray-700">|</span>
+                    <a href="https://aioniklabs.github.io" class="text-gray-400 hover:text-brand-blue transition-colors text-sm font-medium">
+                        aioniklabs.github.io
+                    </a>
+                </div>
+            </div>
+            <div class="border-t border-gray-800 pt-8 flex flex-col md:flex-row justify-between items-center text-sm text-gray-500 gap-4">
+                <p>&copy; 2026 Aionik Labs. All rights reserved.</p>
+                <div class="flex gap-4">
+                    <a href="https://aioniklabs.github.io" class="hover:text-gray-300">Privacy Policy</a>
+                    <a href="https://aioniklabs.github.io" class="hover:text-gray-300">Imprint</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Interactive Scripts -->
+    <script>
+        // Mobile Menu Toggle
+        const btn = document.getElementById('mobile-menu-btn');
+        const menu = document.getElementById('mobile-menu');
+
+        btn.addEventListener('click', () => {
+            menu.classList.toggle('hidden');
+        });
+
+        // Close mobile menu on link click
+        document.querySelectorAll('#mobile-menu a').forEach(link => {
+            link.addEventListener('click', () => {
+                menu.classList.add('hidden');
+            });
+        });
+
+        // Navbar blur on scroll
+        window.addEventListener('scroll', () => {
+            const nav = document.getElementById('navbar');
+            if (window.scrollY > 20) {
+                nav.classList.add('shadow-lg');
+                nav.style.background = 'rgba(18, 21, 28, 0.9)';
+            } else {
+                nav.classList.remove('shadow-lg');
+                nav.style.background = 'rgba(18, 21, 28, 0.8)';
+            }
+        });
+
+        // Intersection Observer for scroll animations (fade in / slide up)
+        const revealElements = document.querySelectorAll('.reveal');
+
+        const revealOptions = {
+            threshold: 0.15,
+            rootMargin: "0px 0px -50px 0px"
+        };
+
+        const revealOnScroll = new IntersectionObserver(function(entries, observer) {
+            entries.forEach(entry => {
+                if (!entry.isIntersecting) {
+                    return;
+                } else {
+                    entry.target.classList.add('active');
+                    // Optional: stop observing once revealed
+                    // observer.unobserve(entry.target);
+                }
+            });
+        }, revealOptions);
+
+        revealElements.forEach(el => {
+            revealOnScroll.observe(el);
+        });
+        
+        // Trigger animations for elements already in view on load
+        setTimeout(() => {
+            revealElements.forEach(el => {
+                const rect = el.getBoundingClientRect();
+                if(rect.top < window.innerHeight) {
+                    el.classList.add('active');
+                }
+            });
+        }, 100);
+    </script>
+</body>
+</html>
